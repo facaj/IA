@@ -1,0 +1,38 @@
+import numpy as np
+
+def ativacao(vetor):
+  for i in range(len(vetor)):
+    if vetor[i]>0:
+      vetor[i]=1
+    else:
+      vetor[i]=-1
+  return(vetor)
+
+def matriz(vetor):
+  m = np.outer(vetor.T, vetor)
+  np.fill_diagonal(m, 0)
+  return m
+
+def recupera(vetor,memoria,contador=0):  
+  r = ativacao(vetor.dot(memoria))
+  if np.array_equal(r,vetor):
+    return vetor
+  else:
+    if contador >10:
+      return(r)
+    recupera(r,memoria,contador=contador+1)
+  return r
+
+a = np.array([1,1,1,-1],int)
+b = np.array([-1,-1,-1,1],int)
+
+m_a = matriz(a)
+#print(m_a)
+m_b = matriz(b)
+#print(m_b)
+
+memoria=m_a+m_b
+print(memoria)
+
+c=np.array([1,-1,-1,1])
+print(recupera(c,memoria))
